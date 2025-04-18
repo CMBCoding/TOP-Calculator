@@ -16,9 +16,9 @@ const digitButtons = document.querySelectorAll(".digit-btn");
 let digitPress = 0;
 
 //Variables for holding the two operands and the operator for use in the operate() function
-let numberA;
-let numberB;
-let mathOperator;
+let numberA = undefined;
+let numberB = undefined;
+let operatorType = undefined;
 
 //DOM refference to all of the operator buttons
 const operatorButtons = document.querySelectorAll(".operator-btn");
@@ -27,11 +27,10 @@ const addButton = document.querySelector("#add-btn");
 const subtractButton = document.querySelector("#sub-btn");
 const multiplyButton = document.querySelector("#mult-btn");
 const divideButton = document.querySelector("#div-btn");
+
+//DOM refferences to the calculate and clear buttons and the display
 const calculateButton = document.querySelector("#calc-btn");
-
-//DOM refference to the clear button
 const clearButton = document.querySelector("#clr-btn");
-
 const display = document.querySelector("#display");
 
 //Function for the add button
@@ -127,52 +126,84 @@ based on which button is pressed */
 operatorButtons.forEach(button => {
     button.addEventListener("click", (event) => {
         const operatorText = button.innerText;
-        const operatorType = button.id;
+        operatorType = button.id;
         display.innerText += button.innerText;
         console.log(`You pressed the ${operatorText} button (${operatorType})`);
-        checkOperator(operatorType);
+        return operatorType;
+        // checkOperator(operatorType);
         // operate(operator);
     });
 });
 
 //Give the clear button functionality
 clearButton.addEventListener("click", () => {
-    display.innerText =  0;
+    display.innerText =  "";
+    numberA = undefined;
+    numberB = undefined;
+    operatorType = undefined;
+    digitPress = 0;
 })
 
-//Give the = button functionality, clicking it runs the operate function
+//Give the = button functionality, clicking it gets the operands, operatorType and runs the operate function
 calculateButton.addEventListener("click", () => {
-    operate();
+    // if ( numberB & operatorType) {
+        
+    // } 
+    operate(numberA, numberB, operatorType);
 })
 
 //Function for running the calculator operation
-
-const operate = function(numberA, numberB, equation) {
+/*Takes the inputs and operator sent from the calculate button, 
+converts the inputs to numbers, and operates*/
+const operate = function(numberA, numberB, operatorType) {
     console.log(`${numberA} has been recieved`);
-    console.log(`${numberB} has been recieved`)
-    // if (!numberA) {
-    //     operand = numberA;
-    //     console.log(`The first operand is ${numberA}`);
-    // } else if (numberA) {
-    //     operand = numberB;
-    //     console.log(`The second operand is ${numberB}`);
-    // }
-    // console.log(`The first operand is ${operand}`);
+    console.log(`${numberB} has been recieved`);
+    console.log(`${operatorType} has been recieved`);
 
-    // equation = checkOperator();
-    // console.log(`${equation}`)
+    let operandA = Number(numberA);
+    let operandB = Number(numberB);
+    console.log(`Operand A is ${operandA}`);
+    console.log(`Operand B is ${operandB}`);
+    
+    switch (operatorType) {
+        case "add-btn" : console.log(`Add`,
+           display.innerText = add(operandA, operandB)
+        );
+        break;
+        case "sub-btn" : console.log(`Subtract`,
+            display.innerText = subtract(operandA, operandB)
+        );
+        break;
+        case "mult-btn" : console.log(`Multiply`,
+            display.innerText = multiply(operandA, operandB)
+        );
+        break;
+        case "div-btn" : console.log(`Divide`,
+            display.innerText = divide (operandA, operandB)
+        );
+        break;
+    }
+
 }
 
 //Function that checks the operator type from the operator button pressed and passes it on to operate
 const checkOperator = function(buttonValue) {
     switch (buttonValue) {
-        case "add-btn" : console.log(add(2,2));
+        case "add-btn" : console.log(`Add`
+            //add(2,2)
+        );
         break;
-        case "sub-btn" : console.log(subtract(10,2));
+        case "sub-btn" : console.log(`Subtract`
+            //subtract(10,2)
+        );
         break;
-        case "mult-btn" : console.log(multiply(5,5));
+        case "mult-btn" : console.log(`Multiply`
+            //multiply(5,5)
+        );
         break;
-        case "div-btn" : console.log(divide (40, 2));
+        case "div-btn" : console.log(`Divide`
+            //divide (40, 2)
+        );
         break;
     }
 };
