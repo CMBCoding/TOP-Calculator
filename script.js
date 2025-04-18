@@ -53,46 +53,6 @@ const divide = function(a, b) {
     return answer = a / b;
 };
 
-/* function getOperator(event) {
-    const buttonId = event.target.id;
-    let value;
-
-    switch (buttonId) {
-        case buttonId = "one=btn" :
-        value = 1;
-        console.log(`${this.value}`);
-        break;
-    }
-} */
-
-/* oneButton.addEventListener('click', () => {
-    console.log("One button clicked");
-    if (operandOne == "") {
-        console.log("One button clicked");
-        return operandTwo = 1;
-    } else {
-        console.log("One button clicked");
-        return operandOne = 1; 
-    }
-}) */
-
-//Function for getting the operator for use in the operate function
-// const getOperator = addEventListener("click", () => {
-//     if (addButton) {
-//         operator = add;
-//     } else if (subtractButton) {
-//         operator = subtract 
-//     } else if (multiplyButton) {
-//         operator = multiply;
-//     } else if (divideButton) {
-//         operator = divide;
-//     }
-//     return operator;
-// })
-
-//Looping through the NodeList created by the query selector selecting all digit buttons, 
-// adding an event to each
-
 /*For each digit button, add an event listener that assigns an operand the value of the button
 (as assigned in the HTML and fetched via the DOM) */
 digitButtons.forEach(button => {
@@ -110,16 +70,9 @@ button.addEventListener("click", (event) => {
         console.log(`Number B is ${numberB}`);
         return numberB;
     } 
-    // else if (digitPress > 2) {
-    //     resetDigitPress;
-    // }
     console.log(`The number of digit presses is ${digitPress}`)
     });
 });
-
-// function resetDigitPress() {
-//     digitPress = 0;
-// };
 
 /*For each operation button, add an event listener that assigns and returns and operator value 
 based on which button is pressed */
@@ -130,8 +83,6 @@ operatorButtons.forEach(button => {
         display.innerText += button.innerText;
         console.log(`You pressed the ${operatorText} button (${operatorType})`);
         return operatorType;
-        // checkOperator(operatorType);
-        // operate(operator);
     });
 });
 
@@ -146,9 +97,6 @@ clearButton.addEventListener("click", () => {
 
 //Give the = button functionality, clicking it gets the operands, operatorType and runs the operate function
 calculateButton.addEventListener("click", () => {
-    // if ( numberB & operatorType) {
-        
-    // } 
     operate(numberA, numberB, operatorType);
 })
 
@@ -184,45 +132,4 @@ const operate = function(numberA, numberB, operatorType) {
         break;
     }
 
-}
-
-//Function that checks the operator type from the operator button pressed and passes it on to operate
-const checkOperator = function(buttonValue) {
-    switch (buttonValue) {
-        case "add-btn" : console.log(`Add`
-            //add(2,2)
-        );
-        break;
-        case "sub-btn" : console.log(`Subtract`
-            //subtract(10,2)
-        );
-        break;
-        case "mult-btn" : console.log(`Multiply`
-            //multiply(5,5)
-        );
-        break;
-        case "div-btn" : console.log(`Divide`
-            //divide (40, 2)
-        );
-        break;
-    }
 };
-
-/*const operate = function(num1, num2) {
-   let a = num1;    
-   let b = num2;    
-   let answer;
-   
-   operator = getOperator();
-   
-   if (operator === addButton) {
-        add(a, b);
-   } else if (operator === subtractButton) {
-        subtract(a,b);
-   } else if (operator === multiplyButton) {
-        multiply(a,b);
-   } else if (operator === divideButton) {
-        divide(a,b);
-   };
-   return answer;
-}*/
