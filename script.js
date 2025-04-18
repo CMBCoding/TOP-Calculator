@@ -11,8 +11,14 @@ const oneButton = document.querySelector("#one-btn");
 
 //DOM refference to all of the digit buttons
 const digitButtons = document.querySelectorAll(".digit-btn");
+
 //Variable that counts the new of times the number keys are pressed
 let digitPress = 0;
+
+//Variables for holding the two operands and the operator for use in the operate() function
+let numberA;
+let numberB;
+let mathOperator;
 
 //DOM refference to all of the operator buttons
 const operatorButtons = document.querySelectorAll(".operator-btn");
@@ -90,25 +96,20 @@ const divide = function(a, b) {
 
 /*For each digit button, add an event listener that assigns an operand the value of the button
 (as assigned in the HTML and fetched via the DOM) */
-
-const getOperand = function() {
-
-}
-
 digitButtons.forEach(button => {
 button.addEventListener("click", (event) => {
     const operand = button.value;
-    display.innerText = button.value;
+    display.innerText += button.value;
     console.log(`You pressed the number ${operand} button`);
     digitPress++;
     if (digitPress === 1) {
-        const numberA = button.value;
+        numberA = button.value;
         console.log(`Number A is ${numberA}`)
-        operate(numberA);
+        return numberA;
     } else if (digitPress > 1) {
-        const numberB = button.value;
+        numberB = button.value;
         console.log(`Number B is ${numberB}`);
-        operate(numberB);
+        return numberB;
     } 
     // else if (digitPress > 2) {
     //     resetDigitPress;
@@ -127,6 +128,7 @@ operatorButtons.forEach(button => {
     button.addEventListener("click", (event) => {
         const operatorText = button.innerText;
         const operatorType = button.id;
+        display.innerText += button.innerText;
         console.log(`You pressed the ${operatorText} button (${operatorType})`);
         checkOperator(operatorType);
         // operate(operator);
@@ -135,12 +137,12 @@ operatorButtons.forEach(button => {
 
 //Give the clear button functionality
 clearButton.addEventListener("click", () => {
-    display.innerText =  "";
+    display.innerText =  0;
 })
 
 //Give the = button functionality, clicking it runs the operate function
 calculateButton.addEventListener("click", () => {
-
+    operate();
 })
 
 //Function for running the calculator operation
