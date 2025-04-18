@@ -8,30 +8,35 @@
     <title>Calculator</title>
 </head>
 <body>
-    <div id="calculator">
+    <div id="calculator" style="width: 130px;">
         <div id="display" style="border: solid 3px black; padding: auto; height: 20px;"></div>
         <div id="btn-box-a">
-            <button id="nine-btn" value="9" class="digit-btn">9</button>
-            <button id="eight-btn" value="8" class="digit-btn">8</button>
             <button id="seven-btn" value="7" class="digit-btn">7</button>
+            <button id="eight-btn" value="8" class="digit-btn">8</button>
+            <button id="nine-btn" value="9" class="digit-btn">9</button>
+            <button id="div-btn" class="operator-btn" value="/">%</button>
         </div>
         <div id="btn-box-b">
-            <button id="six-btn" value="6" class="digit-btn">6</button>
-            <button id="five-btn" value="5" class="digit-btn">5</button>
             <button id="four-btn" value="4" class="digit-btn">4</button>
+            <button id="five-btn" value="5" class="digit-btn">5</button>
+            <button id="six-btn" value="6" class="digit-btn">6</button>
+            <button id="mult-btn" class="operator-btn" value="x">x</button>
         </div>
         <div id="btn-box-c">
-            <button id="three-btn" value="3" class="digit-btn">3</button>
-            <button id="two-btn" value="2" class="digit-btn">2</button>
             <button id="one-btn" value="1" class="digit-btn">1</button>
+            <button id="two-btn" value="2" class="digit-btn">2</button>
+            <button id="three-btn" value="3" class="digit-btn">3</button>
+            <button id="sub-btn" class="operator-btn" value="-">-</button>
         </div>
         <div id="btn-box-d">
+            <!-- <button class="spacer-btn">[]</button> -->
+            <button id="clr-btn">C</button>
+            <button id="zero-btn" value="0" class="digit-btn">0</button>
+            <button id="decimal-btn" value="." class="digit-btn">.</button>
             <button id="add-btn" class="operator-btn" value="+">+</button>
-            <button id="sub-btn" class="operator-btn" value="-">-</button>
-            <button id="mult-btn" class="operator-btn" value="x">x</button>
-            <button id="div-btn" class="operator-btn" value="%">%</button>
-            <button id="calc-btn">=</button>
-            <button id="clr-btn">clear</button>
+        </div>
+        <div id="btn-box-e"style="width: 100%;">
+            <button id="calc-btn" style="width: 80%;">=</button>
         </div>
     </div>
 </body>

@@ -16,13 +16,12 @@ const digitButtons = document.querySelectorAll(".digit-btn");
 let digitPress = 0;
 
 //Variables for holding the two operands and the operator for use in the operate() function
-let numberA = undefined;
-let numberB = undefined;
+let numberA = "";
+let numberB = "";
 let operatorType = undefined;
 
 //DOM refference to all of the operator buttons
 const operatorButtons = document.querySelectorAll(".operator-btn");
-
 const addButton = document.querySelector("#add-btn");
 const subtractButton = document.querySelector("#sub-btn");
 const multiplyButton = document.querySelector("#mult-btn");
@@ -54,23 +53,25 @@ const divide = function(a, b) {
 };
 
 /*For each digit button, add an event listener that assigns an operand the value of the button
-(as assigned in the HTML and fetched via the DOM) */
+(as assigned in the HTML and fetched via the DOM)*/
 digitButtons.forEach(button => {
 button.addEventListener("click", (event) => {
     const operand = button.value;
     display.innerText += button.value;
     console.log(`You pressed the number ${operand} button`);
-    digitPress++;
-    if (digitPress === 1) {
-        numberA = button.value;
+    //If there is not an operatorType, numberA will continue to grow with each digit button press.
+    if (!operatorType) {
+        numberA += button.value;
         console.log(`Number A is ${numberA}`)
         return numberA;
-    } else if (digitPress > 1) {
-        numberB = button.value;
+    } 
+    //If there is an operatorType, number will continue to grow until calculate is clicked.
+    else {
+        numberB += button.value;
         console.log(`Number B is ${numberB}`);
         return numberB;
     } 
-    console.log(`The number of digit presses is ${digitPress}`)
+    // console.log(`The number of digit presses is ${digitPress}`)
     });
 });
 
@@ -89,16 +90,16 @@ operatorButtons.forEach(button => {
 //Give the clear button functionality
 clearButton.addEventListener("click", () => {
     display.innerText =  "";
-    numberA = undefined;
-    numberB = undefined;
+    numberA = "";
+    numberB = "";
     operatorType = undefined;
-    digitPress = 0;
-})
+});
 
-//Give the = button functionality, clicking it gets the operands, operatorType and runs the operate function
+/*Give the = button functionality, clicking it gets the operands, 
+operatorType and runs the operate function*/
 calculateButton.addEventListener("click", () => {
     operate(numberA, numberB, operatorType);
-})
+});
 
 //Function for running the calculator operation
 /*Takes the inputs and operator sent from the calculate button, 
@@ -130,6 +131,6 @@ const operate = function(numberA, numberB, operatorType) {
             display.innerText = divide (operandA, operandB)
         );
         break;
-    }
+    };
 
 };
