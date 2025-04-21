@@ -60,11 +60,17 @@ button.addEventListener("click", (event) => {
     display.innerText += button.value;
     console.log(`You pressed the number ${operand} button`);
     //If there is not an operatorType, numberA will continue to grow with each digit button press.
+    
     if (!operatorType) {
         numberA += button.value;
         console.log(`Number A is ${numberA}`)
         return numberA;
     } 
+    // else if (!operatorType && result) {
+    //     numberA = result;
+    //     console.log(`Number A, ${result}, is the result of the previous equation`);
+    //     return numberA;
+    // }
     //If there is an operatorType, number will continue to grow until calculate is clicked.
     else {
         numberB += button.value;
@@ -98,7 +104,7 @@ clearButton.addEventListener("click", () => {
 /*Give the = button functionality, clicking it gets the operands, 
 operatorType and runs the operate function*/
 calculateButton.addEventListener("click", () => {
-    operate(numberA, numberB, operatorType);
+    result = operate(numberA, numberB, operatorType);
 });
 
 //Function for running the calculator operation
@@ -111,26 +117,43 @@ const operate = function(numberA, numberB, operatorType) {
 
     let operandA = Number(numberA);
     let operandB = Number(numberB);
+    let result;
     console.log(`Operand A is ${operandA}`);
     console.log(`Operand B is ${operandB}`);
     
     switch (operatorType) {
-        case "add-btn" : console.log(`Add`,
-           display.innerText = add(operandA, operandB)
-        );
+        case "add-btn" : console.log(`Add`);
+            result = add(operandA, operandB);
+            console.log(result);
         break;
         case "sub-btn" : console.log(`Subtract`,
-            display.innerText = subtract(operandA, operandB)
+            result = subtract(operandA, operandB)
         );
         break;
         case "mult-btn" : console.log(`Multiply`,
-            display.innerText = multiply(operandA, operandB)
+            result = multiply(operandA, operandB)
         );
         break;
         case "div-btn" : console.log(`Divide`,
-            display.innerText = divide (operandA, operandB)
+            result = divide(operandA, operandB)
         );
         break;
+        default: 
+            console.log("Unknown operator", operatorType);
+            return null;
     };
 
+    display.innerText = result;
+    console.log(`Result is ${result}`);
+    resetAndReturnIntegers(result);
+    return result;
 };
+
+//Function that is called upon to set numberA as the result and reset numberB after each operation to clear it
+const resetAndReturnIntegers = function(result) {
+    numberA = result;
+    numberB = "";
+};
+
+// //The result variable that is stored after operate() runs
+// let result = operate(numberA, numberB, operatorType);
