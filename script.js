@@ -15,10 +15,12 @@ const digitButtons = document.querySelectorAll(".digit-btn");
 //Variable that counts the new of times the number keys are pressed
 let digitPress = 0;
 
-//Variables for holding the two operands and the operator for use in the operate() function
+/*Variables for holding the two operands, the operator for use in the operate() function, 
+and the operator count for use is evaluations > a pair */
 let numberA = "";
 let numberB = "";
 let operatorType = undefined;
+let operatorCount = 0;
 
 //DOM refference to all of the operator buttons
 const operatorButtons = document.querySelectorAll(".operator-btn");
@@ -60,36 +62,45 @@ button.addEventListener("click", (event) => {
     display.innerText += button.value;
     console.log(`You pressed the number ${operand} button`);
     //If there is not an operatorType, numberA will continue to grow with each digit button press.
+
     
     if (!operatorType) {
-        numberA += button.value;
+        numberA += operand;
+        console.log(`Operator count is ${operatorCount}`)
         console.log(`Number A is ${numberA}`)
-        return numberA;
+        return;
     } 
-    // else if (!operatorType && result) {
-    //     numberA = result;
-    //     console.log(`Number A, ${result}, is the result of the previous equation`);
-    //     return numberA;
-    // }
-    //If there is an operatorType, number will continue to grow until calculate is clicked.
-    else {
-        numberB += button.value;
+
+    //If there is an operatorType, numberB will continue to grow until calculate is clicked.
+    if (operatorType && numberA) {
+        numberB += operand;
         console.log(`Number B is ${numberB}`);
-        return numberB;
-    } 
-    // console.log(`The number of digit presses is ${digitPress}`)
-    });
-});
+        return;
+    }
+})});
 
 /*For each operation button, add an event listener that assigns and returns and operator value 
 based on which button is pressed */
 operatorButtons.forEach(button => {
     button.addEventListener("click", (event) => {
         const operatorText = button.innerText;
-        operatorType = button.id;
-        display.innerText += button.innerText;
-        console.log(`You pressed the ${operatorText} button (${operatorType})`);
-        return operatorType;
+        const newOperatorType = button.id;
+        operatorCount += 1;
+        console.log(`You pressed the ${operatorText} button (${newOperatorType})`);
+        
+        if (operatorCount > 1 && numberA && numberB) {
+            let result = operate(numberA, numberB, operatorType);
+            display.innerText = result + operatorText;
+            console.log(`Pair equation executed, the returned values is ${numberA}`);
+            result = numberA;
+            numberB = "";
+            operatorCount = 1;
+        } else {
+            display.innerText += operatorText;
+        } 
+
+    operatorType = newOperatorType;
+    return operatorType;
     });
 });
 
@@ -99,6 +110,7 @@ clearButton.addEventListener("click", () => {
     numberA = "";
     numberB = "";
     operatorType = undefined;
+    operatorCount = 0;
 });
 
 /*Give the = button functionality, clicking it gets the operands, 
