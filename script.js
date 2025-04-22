@@ -20,9 +20,9 @@ let digitPress = 0;
 
 //Object for holding the operand 1, operator, and operand 2
 const equationObj = {
-    numberA : [],
+    numberA : "",
     operator : undefined,
-    numberB : [],
+    numberB : "",
 };
 
 /*Variables for holding the two operands, the operator for use in the operate() function, 
@@ -65,28 +65,23 @@ const divide = function(a, b) {
 
 /*For each digit button, add an event listener that assigns an operand the value of the button
 (as assigned in the HTML and fetched via the DOM)*/
-digitButtons.forEach(button => {
-button.addEventListener("click", (event) => {
-    const operand = button.value
-    const operatorType = equationObj.operator;
-    display.innerText += button.value;
-    console.log(`You pressed the number ${operand} button`);
+digitButtons.forEach(button => {button.addEventListener("click", (event) => {
+    const digit = button.value
+    display.innerText += digit;
+    console.log(`You pressed the number ${digit} button`);
     
-    //If there is not an operatorType, numberA will continue to grow with each digit button press.
-    if (!operatorType) {
-        equationObj.numberA += operand;
-        console.log(`Operator count is ${operatorCount}`)
+    /*If there is not an operatorType, numberA will continue to grow with each digit button press.
+    If there is an operatorType, numberB will continue to grow until calculate is clicked.*/
+    if (!equationObj.operator) {
+        equationObj.numberA += digit;
         console.log(`Number A is ${equationObj.numberA}`)
         return;
-    } 
-
-    //If there is an operatorType, numberB will continue to grow until calculate is clicked.
-    if (operatorType && equationObj.numberA) {
-        equationObj.numberB += operand;
+    } else {
+        equationObj.numberB += digit; 
         console.log(`Number B is ${equationObj.numberB}`);
-        return;
     }
-})});
+    });
+});
 
 /*For each operation button, add an event listener that assigns and returns and operator value 
 based on which button is pressed */
@@ -94,41 +89,55 @@ operatorButtons.forEach(button => {
     button.addEventListener("click", (event) => {
         const operatorText = button.innerText;
         const newOperatorType = button.id;
-        equationObj.operator = button.id;
         operatorCount += 1;
         console.log(`You pressed the ${operatorText} button (${newOperatorType})`);
         
-/*If there is more than one operator button press and already numberA and B, operate is called and ran
-allowing for only a pair of equations to be run at once */
-        if (operatorCount > 1 && equationObj.numberA && equationObj.numberB) {
-            let result = operate(equationObj);
-            display.innerText = result + operatorText;
-            console.log(`Pair equation executed, the returned values is ${numberA}`);
-            result = numberA;
-            numberB = "";
-            operatorCount = 1;
-        } else {
-            display.innerText += operatorText;
-        } 
+/*If the equationObj already has numberA, numberB, and an operator; they are automatically sent over
+to the operate() function. This ensures that only a pair of equations can be run at once */
+        if (isEquationObjFull(equationObj)) {
+            const result = operate();
 
-    operatorType = newOperatorType;
-    return operatorType;
+            equationObj.numberA = String(result);
+            equationObj.numberB = "";
+            equationObj.operator = newOperatorType;
+
+            display.innerText = result + operatorText;
+            operatorCount = 1;
+        } else if (equationObj.numberA !== "") {
+            equationObj.operator = newOperatorType;
+            display.innerText += operatorText;
+        }
     });
 });
 
-//Give the clear button functionality
+/*Give the clear button functionality. Clicking it clears the display, resets the operatorCount and
+resets the keys of the equationObj*/
 clearButton.addEventListener("click", () => {
-    display.innerText =  0;
+    display.innerText =  "";
     equationObj.numberA = [];
     equationObj.numberB = [];
     equationObj.operator = undefined;
     operatorCount = 0;
 });
 
+/*Variable the checks to see if all the keys of the equationObj have values
+It checks to see that numberA and B are arrays and not empty or another datatype, and the length 
+to be verify that they contain values. The second step checks  the type of obj.operator to see if
+it is not undefinied, e.i. not yet properly assigned.*/
+const isEquationObjFull = function(obj) {
+    return (
+        equationObj.numberA !== "" &&
+        equationObj.operator !== undefined && 
+        equationObj.numberB !== ""
+    );
+};
+
 /*Give the = button functionality. Clicking it sends the object containing operands and
-operator to the operate function*/
+operator to the operate() function*/
 calculateButton.addEventListener("click", () => {
-    result = operate(equationObj);
+    if(isEquationObjFull) {
+        result = operate(equationObj);
+    }
 });
 
 /*Give the +/- button functionality. Clicking it changes the current operand to 
@@ -144,10 +153,10 @@ deleteButton.addEventListener("click", () => {
 //Function for running the calculator operation
 /*Takes the inputs and operator sent from the calculate button, extracts them from the object,
 converts the inputs to numbers, and operates*/
-const operate = function(equationObj) {
-    let operandA = Number(equationObj.numberA);
-    let operandB = Number(equationObj.numberB);
-    let operatorType = equationObj.operator;
+const operate = function() {
+    const operandA = Number(equationObj.numberA);
+    const operandB = Number(equationObj.numberB);
+    const operatorType = equationObj.operator;
     
     let result;
     console.log(`Operand A is ${operandA}`);
@@ -155,24 +164,20 @@ const operate = function(equationObj) {
     console.log(`operatorType is ${operatorType}`); 
 
     switch (operatorType) {
-        case "add-btn" : console.log(`Result of addition is`);
-            result = add(operandA, operandB);
-            console.log(result);
+        case "add-btn" : result = add(operandA, operandB);
+            console.log(`Result of addition is ${result}`);
         break;
-        case "sub-btn" : console.log(`Result of subtraction is`,
-            result = subtract(operandA, operandB)
-        );
+        case "sub-btn" : result = subtract(operandA, operandB);
+            console.log(`Result of subtraction is ${result}`);
         break;
-        case "mult-btn" : console.log(`Result of multiplication is`,
-            result = multiply(operandA, operandB)
-        );
+        case "mult-btn" : result = multiply(operandA, operandB);
+            console.log(`Result of multiplication is ${result}`);
         break;
-        case "div-btn" : console.log(`Result of division is`,
-            result = divide(operandA, operandB)
-        );
+        case "div-btn" : result = divide(operandA, operandB);
+            console.log(`Result of division is ${result}`);
         break;
         default: 
-            console.log("Unknown operator", operatorType);
+            console.log("Unknown operator:", operatorType);
             return null;
     };
 
@@ -192,6 +197,6 @@ const operate = function(equationObj) {
 
 //Function that is called upon to set numberA as the result and reset numberB after each operation to clear it
 const resetAndReturnIntegers = function(result) {
-    numberA = result;
-    numberB = "";
+    equationObj.numberA = String(result);
+    equationObj.numberB = "";
 };
