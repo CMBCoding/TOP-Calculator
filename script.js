@@ -101,7 +101,7 @@ operatorButtons.forEach(button => {
 /*If there is more than one operator button press and already numberA and B, operate is called and ran
 allowing for only a pair of equations to be run at once */
         if (operatorCount > 1 && equationObj.numberA && equationObj.numberB) {
-            let result = operate(equation);
+            let result = operate(equationObj);
             display.innerText = result + operatorText;
             console.log(`Pair equation executed, the returned values is ${numberA}`);
             result = numberA;
@@ -118,10 +118,10 @@ allowing for only a pair of equations to be run at once */
 
 //Give the clear button functionality
 clearButton.addEventListener("click", () => {
-    display.innerText =  "";
-    numberA = "";
-    numberB = "";
-    operatorType = undefined;
+    display.innerText =  0;
+    equationObj.numberA = [];
+    equationObj.numberB = [];
+    equationObj.operator = undefined;
     operatorCount = 0;
 });
 
@@ -155,19 +155,19 @@ const operate = function(equationObj) {
     console.log(`operatorType is ${operatorType}`); 
 
     switch (operatorType) {
-        case "add-btn" : console.log(`Add`);
+        case "add-btn" : console.log(`Result of addition is`);
             result = add(operandA, operandB);
             console.log(result);
         break;
-        case "sub-btn" : console.log(`Subtract`,
+        case "sub-btn" : console.log(`Result of subtraction is`,
             result = subtract(operandA, operandB)
         );
         break;
-        case "mult-btn" : console.log(`Multiply`,
+        case "mult-btn" : console.log(`Result of multiplication is`,
             result = multiply(operandA, operandB)
         );
         break;
-        case "div-btn" : console.log(`Divide`,
+        case "div-btn" : console.log(`Result of division is`,
             result = divide(operandA, operandB)
         );
         break;
