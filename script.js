@@ -12,6 +12,9 @@ const oneButton = document.querySelector("#one-btn");
 //DOM refference to all of the digit buttons
 const digitButtons = document.querySelectorAll(".digit-btn");
 
+////DOM refference to all of buttons
+const allButtons = document.querySelectorAll(".btn");
+
 //Variable that counts the new of times the number keys are pressed
 let digitPress = 0;
 
@@ -29,9 +32,11 @@ const subtractButton = document.querySelector("#sub-btn");
 const multiplyButton = document.querySelector("#mult-btn");
 const divideButton = document.querySelector("#div-btn");
 
-//DOM refferences to the calculate and clear buttons and the display
+//DOM refferences to the calculate, clear, delete, positive/negative buttons and the display
 const calculateButton = document.querySelector("#calc-btn");
 const clearButton = document.querySelector("#clr-btn");
+const deleteButton = document.querySelector("#del-btn");
+const positiveNegativeButton = document.querySelector("#plus-minus-btn");
 const display = document.querySelector("#display");
 
 //Function for the add button
@@ -63,7 +68,6 @@ button.addEventListener("click", (event) => {
     console.log(`You pressed the number ${operand} button`);
     //If there is not an operatorType, numberA will continue to grow with each digit button press.
 
-    
     if (!operatorType) {
         numberA += operand;
         console.log(`Operator count is ${operatorCount}`)
@@ -88,6 +92,8 @@ operatorButtons.forEach(button => {
         operatorCount += 1;
         console.log(`You pressed the ${operatorText} button (${newOperatorType})`);
         
+/*If there is more than one operator button press and already numberA and B, operate is called and ran
+allowing for only a pair of equations to be run at once */
         if (operatorCount > 1 && numberA && numberB) {
             let result = operate(numberA, numberB, operatorType);
             display.innerText = result + operatorText;
@@ -113,10 +119,20 @@ clearButton.addEventListener("click", () => {
     operatorCount = 0;
 });
 
-/*Give the = button functionality, clicking it gets the operands, 
+/*Give the = button functionality. Clicking it gets the operands, 
 operatorType and runs the operate function*/
 calculateButton.addEventListener("click", () => {
     result = operate(numberA, numberB, operatorType);
+});
+
+/*Give the +/- button functionality. Clicking it changes the current operand to 
+positive or negative depending on its current state */
+positiveNegativeButton.addEventListener("click", () => {
+})
+
+/*Give the del button functionality. Clicking it removes the input entered by the user. */
+deleteButton.addEventListener("click", () => {
+    console.log(`${display.innerText.length}`)
 });
 
 //Function for running the calculator operation
@@ -129,6 +145,7 @@ const operate = function(numberA, numberB, operatorType) {
 
     let operandA = Number(numberA);
     let operandB = Number(numberB);
+
     let result;
     console.log(`Operand A is ${operandA}`);
     console.log(`Operand B is ${operandB}`);
@@ -156,8 +173,16 @@ const operate = function(numberA, numberB, operatorType) {
     };
 
     display.innerText = result;
-    console.log(`Result is ${result}`);
-    resetAndReturnIntegers(result);
+    //Accounting for various outlying results
+    if (result === Infinity) {
+        console.log("Divide by 0");
+        display.innerText = "The universe collapses"; 
+    } 
+    else {
+        console.log(`Result is ${result}`);
+        resetAndReturnIntegers(result);
+    }
+
     return result;
 };
 
@@ -166,6 +191,3 @@ const resetAndReturnIntegers = function(result) {
     numberA = result;
     numberB = "";
 };
-
-// //The result variable that is stored after operate() runs
-// let result = operate(numberA, numberB, operatorType);

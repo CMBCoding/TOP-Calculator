@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#calculator {
+    width: 140px;
+    border: solid 2px black;
+    margin: 10px;
+}
+
+#display {
+    border: solid 3px black; 
+    height: 40px;
+    text-align: right;
+}
+
+.btn-boxes {
+    width: 100%;
+}
+
+.digit-btn, .operator-btn  {
+    width: 20%;
+}
+
+#clr-btn, #del-btn, #plus-minus-btn {
+    width: 20%;
+}
+
+#calc-btn {
+    width: 43%;
+}
