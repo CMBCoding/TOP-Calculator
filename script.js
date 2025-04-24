@@ -143,7 +143,35 @@ calculateButton.addEventListener("click", () => {
 /*Give the +/- button functionality. Clicking it changes the current operand to 
 positive or negative depending on its current state */
 positiveNegativeButton.addEventListener("click", () => {
-})
+    //If there is not an equation operator...
+    if(!equationObj.operator) {
+        //And if there is a value assigned to numberA, turn numberA to a number and multiply it by -1
+        if(equationObj.numberA !== "") {
+            equationObj.numberA = String(Number(equationObj.numberA) * -1);
+            display.innerText = equationObj.numberA;
+        }
+    //If there is a equeation operator
+    } else {
+        //And if there is a value assigned to numberB, turn numberB to a number and multiply it by -1
+        if (equationObj.numberB !== "") {
+            equationObj.numberB = String(Number(equationObj.numberB) * -1);
+
+        //And then the full expression is rebuilt for the display, preventing numberB from overriding it
+            display.innerText = equationObj.numberA +  getOperatorSign(equationObj.operator) + equationObj.numberB;
+        }
+    }
+});
+
+//function that fetches the operator type for the positiveNegativeButton to rebuilt the display
+const getOperatorSign = function(operatorId) {
+    switch (operatorId) {
+    case "add-btn" : return "+";
+    case "sub-btn" : return "-";
+    case "mult-btn" : return "x";
+    case "div-btn" : return "÷";
+    default: return "?";
+    }
+};
 
 /*Give the del button functionality. Clicking it removes the input entered by the user. */
 deleteButton.addEventListener("click", () => {
@@ -182,11 +210,12 @@ const operate = function() {
     };
 
     // display.innerText = result;
-    //Accounting for various outlying results
+    //Accounting for various outlying results such as returning Infinity or division by 0
     if (result === Infinity || isNaN(result)) {
         console.log("Divide by 0");
         display.innerText = "The universe collapses"; 
     } 
+    //And decimals or other results from overflowing the display
     else {
         if (result.toString().length > 12) {
             result = Number(result.toFixed(12));
