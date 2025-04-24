@@ -24,10 +24,9 @@ const equationObj = {
     operator : undefined,
     numberB : "",
 };
-
-/*Variables for holding the two operands, the operator for use in the operate() function, 
-and the operator count for use is evaluations > a pair */
-let operatorCount = 0;
+let lastestOperator = null;
+let latestOperandB = null;
+let justEvaluted = false;
 
 //DOM refference to all of the operator buttons
 const operatorButtons = document.querySelectorAll(".operator-btn");
@@ -65,22 +64,28 @@ const divide = function(a, b) {
 
 /*For each digit button, add an event listener that assigns an operand the value of the button
 (as assigned in the HTML and fetched via the DOM)*/
-digitButtons.forEach(button => {button.addEventListener("click", (event) => {
+digitButtons.forEach(button => {button.addEventListener("click", () => {
     const digit = button.value
-    display.innerText += digit;
-    console.log(`You pressed the number ${digit} button`);
     
     /*If there is not an operatorType, numberA will continue to grow with each digit button press.
     If there is an operatorType, numberB will continue to grow until calculate is clicked.*/
     if (!equationObj.operator) {
-        equationObj.numberA += digit;
-        console.log(`Number A is ${equationObj.numberA}`)
-        return;
+        if (justEvaluted) {
+            equationObj.numberA = digit;
+            display.innerText = equationObj.numberA;
+            console.log(`Number A is ${equationObj.numberA}`);
+            justEvaluted = false;
+        } else {
+            equationObj.numberA += digit;
+            display.innerText = equationObj.numberA;
+            console.log(`Number A is ${equationObj.numberA}`);
+        }
     } else {
-        equationObj.numberB += digit; 
+        equationObj.numberB += digit;
+        display.innerText = equationObj.numberA + getOperatorSign(equationObj.operator) + equationObj.numberB;
         console.log(`Number B is ${equationObj.numberB}`);
     }
-    });
+});
 });
 
 /*For each operation button, add an event listener that assigns and returns and operator value 
@@ -89,7 +94,6 @@ operatorButtons.forEach(button => {
     button.addEventListener("click", (event) => {
         const operatorText = button.innerText;
         const newOperatorType = button.id;
-        operatorCount += 1;
         console.log(`You pressed the ${operatorText} button (${newOperatorType})`);
         
 /*If the equationObj already has numberA, numberB, and an operator; they are automatically sent over
@@ -100,24 +104,28 @@ to the operate() function. This ensures that only a pair of equations can be run
             equationObj.numberA = String(result);
             equationObj.numberB = "";
             equationObj.operator = newOperatorType;
-
             display.innerText = result + operatorText;
-            operatorCount = 1;
         } else if (equationObj.numberA !== "") {
-            equationObj.operator = newOperatorType;
-            display.innerText += operatorText;
+            if (display.innerText === equationObj.numberA) {
+                display.innerText += operatorText;
+            } else {
+                display.innerText = equationObj.numberA + operatorText ;
+            }
+                equationObj.operator = newOperatorType;
         }
     });
 });
 
-/*Give the clear button functionality. Clicking it clears the display, resets the operatorCount and
-resets the keys of the equationObj*/
+/*Give the clear button functionality. Clicking it clears the display and resets the 
+keys of the equationObj*/
 clearButton.addEventListener("click", () => {
     display.innerText =  "";
     equationObj.numberA = [];
     equationObj.numberB = [];
     equationObj.operator = undefined;
-    operatorCount = 0;
+    lastOperator = null;
+    lastOperandB = null;
+    justEvaluted = false;
 });
 
 /*Variable the checks to see if all the keys of the equationObj have values
@@ -135,8 +143,19 @@ const isEquationObjFull = function(obj) {
 /*Give the = button functionality. Clicking it sends the object containing operands and
 operator to the operate() function*/
 calculateButton.addEventListener("click", () => {
-    if(isEquationObjFull) {
-        result = operate(equationObj);
+    if(isEquationObjFull(equationObj)) {
+        const result = operate();
+        equationObj.numberA = String(result);
+        equationObj.numberB = "";
+        display.innerText = result;
+        justEvaluted = true;
+    } else if (equationObj.numberA !== "" && lastestOperator !== null && latestOperandB !== null) {
+        equationObj.operator = lastestOperator;
+        equationObj.numberB = String(latestOperandB);
+        const result = operate();
+        equationObj.numberA = String(result);
+        display.innerText = result;
+        justEvaluted = true
     }
 });
 
@@ -157,12 +176,12 @@ positiveNegativeButton.addEventListener("click", () => {
             equationObj.numberB = String(Number(equationObj.numberB) * -1);
 
         //And then the full expression is rebuilt for the display, preventing numberB from overriding it
-            display.innerText = equationObj.numberA +  getOperatorSign(equationObj.operator) + equationObj.numberB;
+            display.innerText = equationObj.numberA + getOperatorSign(equationObj.operator) + equationObj.numberB;
         }
     }
 });
 
-//function that fetches the operator type for the positiveNegativeButton to rebuilt the display
+//function that fetches the operator type to rebuild the display when pressing the +/- or Del buttons
 const getOperatorSign = function(operatorId) {
     switch (operatorId) {
     case "add-btn" : return "+";
@@ -173,9 +192,33 @@ const getOperatorSign = function(operatorId) {
     }
 };
 
-/*Give the del button functionality. Clicking it removes the input entered by the user. */
+/*Give the del button functionality. Clicking it removes the input entered by the user. 
+The function checks the object has all three keys, if one of the number keys is great than a single digit,
+then removes them accordingly*/
 deleteButton.addEventListener("click", () => {
-    console.log(`${display.innerText.length}`)
+    if (equationObj.numberA !== "" && equationObj.operator !== undefined && equationObj.numberB !== "") {
+        if (equationObj.numberB.length > 1) {
+            equationObj.numberB = equationObj.numberB.slice(0, -1);
+            console.log(`Number B is ${equationObj.numberB}`);
+            display.innerText = equationObj.numberA + getOperatorSign(equationObj.operator) + equationObj.numberB;
+        } else {
+            equationObj.numberB = "";
+            display.innerText = equationObj.numberA + getOperatorSign(equationObj.operator);
+        };
+    } else if (equationObj.numberA !== "" && equationObj.operator !== undefined && equationObj.numberB == "") {
+        equationObj.operator = undefined;
+        console.log(`Number A is ${equationObj.numberA} and the operator is ${equationObj.operator}`)
+        display.innerText = equationObj.numberA;
+    } else if (equationObj.numberA !== "" && equationObj.operator == undefined && equationObj.numberB == "") {
+        if (equationObj.numberA.length > 1) {
+            equationObj.numberA = equationObj.numberA.slice(0, -1);
+            console.log(`Number A is ${equationObj.numberA}`);
+            display.innerText = equationObj.numberA;
+        } else {
+            equationObj.numberA = "";
+            display.innerText = ""
+        }
+    }
 });
 
 //Function for running the calculator operation
@@ -186,12 +229,17 @@ const operate = function() {
     const operandB = Number(equationObj.numberB);
     const operatorType = equationObj.operator;
     
-    let result;
     console.log(`Operand A is ${operandA}`);
     console.log(`Operand B is ${operandB}`);
     console.log(`operatorType is ${operatorType}`); 
+    let result;
 
-    switch (operatorType) {
+    if (operandA === 0 && operandB === 0 && operatorType === undefined) {
+        result = 0;
+        display.innerText = result;
+        return result;
+    } else {    
+        switch (operatorType) {
         case "add-btn" : result = add(operandA, operandB);
             console.log(`Result of addition is ${result}`);
         break;
@@ -209,6 +257,10 @@ const operate = function() {
             return null;
     };
 
+    if (operatorType !== undefined && operandB !== 0) {
+        lastestOperator = operatorType;
+        latestOperandB = operandB;
+    }
     // display.innerText = result;
     //Accounting for various outlying results such as returning Infinity or division by 0
     if (result === Infinity || isNaN(result)) {
@@ -223,7 +275,8 @@ const operate = function() {
     console.log(`Result is ${result}`);
     display.innerText = result;
     resetAndReturnIntegers(result);
-    }
+    return result;
+    }}
 
 };
 
