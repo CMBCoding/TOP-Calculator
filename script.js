@@ -181,15 +181,19 @@ const operate = function() {
             return null;
     };
 
-    
+    // display.innerText = result;
     //Accounting for various outlying results
     if (result === Infinity || isNaN(result)) {
         console.log("Divide by 0");
         display.innerText = "The universe collapses"; 
     } 
     else {
-        console.log(`Result is ${result}`);
-        resetAndReturnIntegers(result);
+        if (result.toString().length > 12) {
+            result = Number(result.toFixed(12));
+        }
+    console.log(`Result is ${result}`);
+    display.innerText = result;
+    resetAndReturnIntegers(result);
     }
 
 };
