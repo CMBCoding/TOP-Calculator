@@ -181,9 +181,9 @@ const operate = function() {
             return null;
     };
 
-    display.innerText = result;
+    
     //Accounting for various outlying results
-    if (result === Infinity) {
+    if (result === Infinity || isNaN(result)) {
         console.log("Divide by 0");
         display.innerText = "The universe collapses"; 
     } 
@@ -192,7 +192,6 @@ const operate = function() {
         resetAndReturnIntegers(result);
     }
 
-    return result;
 };
 
 //Function that is called upon to set numberA as the result and reset numberB after each operation to clear it
