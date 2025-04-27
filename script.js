@@ -91,7 +91,7 @@ digitButtons.forEach(button => {button.addEventListener("click", () => {
 /*For each operation button, add an event listener that assigns and returns and operator value 
 based on which button is pressed */
 operatorButtons.forEach(button => {
-    button.addEventListener("click", (event) => {
+    button.addEventListener("click", () => {
         const operatorText = button.innerText;
         const newOperatorType = button.id;
         console.log(`You pressed the ${operatorText} button (${newOperatorType})`);
