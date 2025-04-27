@@ -38,7 +38,7 @@ h1 {
     flex-direction: column;
     background-color: var(--calculator-black);
     border-radius: 2.5%;
-    border: solid 0.5px silver;
+    outline: silver 1px solid;
 }
 
 #display {
