@@ -5,39 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="calculator">
         <div id="display"></div>
-        <div id="btn-box-a" class="btn-boxes">
-            <button id="seven-btn" value="7" class="btn digit-btn">7</button>
-            <button id="eight-btn" value="8" class="btn digit-btn">8</button>
-            <button id="nine-btn" value="9" class="btn digit-btn">9</button>
-            <button id="div-btn" class="btn operator-btn" value="÷">÷</button>
-        </div>
-        <div id="btn-box-b" class="btn-boxes">
-            <button id="four-btn" value="4" class="btn digit-btn">4</button>
-            <button id="five-btn" value="5" class="btn digit-btn">5</button>
-            <button id="six-btn" value="6" class="btn digit-btn">6</button>
-            <button id="mult-btn" class="btn operator-btn" value="x">x</button>
-        </div>
-        <div id="btn-box-c" class="btn-boxes">
-            <button id="one-btn" value="1" class="btn digit-btn">1</button>
-            <button id="two-btn" value="2" class="btn digit-btn">2</button>
-            <button id="three-btn" value="3" class="btn digit-btn">3</button>
-            <button id="sub-btn" class="btn operator-btn" value="-">-</button>
-        </div>
-        <div id="btn-box-d" class="btn-boxes">
-            <!-- <button class="spacer-btn">[]</button> -->
-            <button id="plus-minus-btn" class="btn">+/-</button>
-            <button id="zero-btn" value="0" class="btn digit-btn">0</button>
-            <button id="decimal-btn" value="." class="btn digit-btn">.</button>
-            <button id="add-btn" class="btn operator-btn" value=" +">+</button>
-        </div>
-        <div id="btn-box-e" class="btn-boxes">
-            <button id="clr-btn">C</button>
-            <button id="del-btn">Del</button>
-            <button id="calc-btn" class="btn">=</button>
+        <div id="btn-container">
+            <div id="btn-box-a" class="btn-boxes">
+                <button id="seven-btn" value="7" class="btn digit-btn">7</button>
+                <button id="eight-btn" value="8" class="btn digit-btn">8</button>
+                <button id="nine-btn" value="9" class="btn digit-btn">9</button>
+                <button id="div-btn" class="btn operator-btn" value="÷">÷</button>
+            </div>
+            <div id="btn-box-b" class="btn-boxes">
+                <button id="four-btn" value="4" class="btn digit-btn">4</button>
+                <button id="five-btn" value="5" class="btn digit-btn">5</button>
+                <button id="six-btn" value="6" class="btn digit-btn">6</button>
+                <button id="mult-btn" class="btn operator-btn" value="x">x</button>
+            </div>
+            <div id="btn-box-c" class="btn-boxes">
+                <button id="one-btn" value="1" class="btn digit-btn">1</button>
+                <button id="two-btn" value="2" class="btn digit-btn">2</button>
+                <button id="three-btn" value="3" class="btn digit-btn">3</button>
+                <button id="sub-btn" class="btn operator-btn" value="-">-</button>
+            </div>
+            <div id="btn-box-d" class="btn-boxes">
+                <button id="plus-minus-btn" class="btn">+/-</button>
+                <button id="zero-btn" value="0" class="btn digit-btn">0</button>
+                <button id="decimal-btn" value="." class="btn digit-btn">.</button>
+                <button id="add-btn" class="btn operator-btn" value=" +">+</button>
+            </div>
+            <div id="btn-box-e" class="btn-boxes">
+                <button id="clr-btn" class="btn">C</button>
+                <button id="del-btn" class="btn">Del</button>
+                <button id="calc-btn" class="btn">=</button>
+                <div id="spacer-btn"></div>
+            </div>
         </div>
     </div>
 </body>

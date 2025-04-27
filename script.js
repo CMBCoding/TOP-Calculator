@@ -145,17 +145,33 @@ operator to the operate() function*/
 calculateButton.addEventListener("click", () => {
     if(isEquationObjFull(equationObj)) {
         const result = operate();
-        equationObj.numberA = String(result);
-        equationObj.numberB = "";
-        display.innerText = result;
-        justEvaluted = true;
+        
+        if (result !== null) {
+            equationObj.numberA = String(result);
+            equationObj.numberB = "";
+            display.innerText = result;
+            justEvaluted = true;  
+        } else {
+            equationObj.numberA = "";
+            equationObj.numberB = "";
+            equationObj.operator = undefined;
+            justEvaluted = false;
+        }
     } else if (equationObj.numberA !== "" && lastestOperator !== null && latestOperandB !== null) {
         equationObj.operator = lastestOperator;
         equationObj.numberB = String(latestOperandB);
         const result = operate();
-        equationObj.numberA = String(result);
-        display.innerText = result;
-        justEvaluted = true
+
+        if (result !== null) {
+            equationObj.numberA = String(result);
+            display.innerText = result;
+            justEvaluted = true;
+        } else {
+            equationObj.numberA = "";
+            equationObj.numberB = "";
+            equationObj.operator = undefined;
+            justEvaluted = false;
+        }
     }
 });
 
@@ -261,11 +277,13 @@ const operate = function() {
         lastestOperator = operatorType;
         latestOperandB = operandB;
     }
+    
     // display.innerText = result;
     //Accounting for various outlying results such as returning Infinity or division by 0
     if (result === Infinity || isNaN(result)) {
         console.log("Divide by 0");
         display.innerText = "The universe collapses"; 
+        return null;
     } 
     //And decimals or other results from overflowing the display
     else {

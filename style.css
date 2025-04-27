@@ -4,30 +4,123 @@
     padding: 0;
 }
 
+:root {
+    --digit-purple: #CAC8E0;
+    --operator-pink: #D995AE;
+    --clear-red: #A13336;
+    --button-gray: #111217;
+    --button-gray-faded: #2f3038;
+    --calculator-black: #010101;
+    --equals-pink: #AD2B57;
+    --equals-pink-faded: #d4356a;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Orbitron", sans-serif;
+}
+
 #calculator {
-    width: 140px;
+    width: 260px;
     border: solid 2px black;
-    margin: 10px;
+    margin: 150px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--calculator-black);
+    border-radius: 2.5%;
 }
 
 #display {
     border: solid 3px black; 
-    height: 40px;
+    height: 80px;
+    width: 100%;
     text-align: right;
+    color: var(--digit-purple);
+    background-color: var(--calculator-black);
+    font-size: 30px;
+    font-family: "Orbitron", sans-serif;
+    border-bottom: silver solid 1px;
+}
+
+#btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-boxes {
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
-.digit-btn, .operator-btn  {
-    width: 20%;
+.btn {
+    background-color: var(--button-gray);
+    font-size: 30px;
+    font-family: "Orbitron", sans-serif;
+    border-radius: 100%;
+    border: none;
+    text-align: center;
+    padding: 5px;
+    margin: 2.5px
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
 }
 
-#clr-btn, #del-btn, #plus-minus-btn {
-    width: 20%;
+.digit-btn, #plus-minus-btn {
+    color: var(--digit-purple);
+}
+
+/* .btn:hover  {
+    background-color: var(--button-gray-faded);
+} */
+
+.btn:active {
+    font-size: 28px;
+    background-color: var(--button-gray-faded);
+    color: #FFFFFF;
+}
+
+.operator-btn, #del-btn, #calc-btn {
+    color: var(--operator-pink);
+}
+
+.operator-btn:active, #del-btn:active, #calc-btn:active {
+    color: #FFFFFF;
 }
 
 #calc-btn {
-    width: 43%;
+    background-color: var(--equals-pink);
+}
+
+#calc-btn:active {
+    background-color: var(--equals-pink-faded);
+    color: #FFFFFF;
+    font-size: 28px;
+}
+
+#clr-btn {
+    color: var(--clear-red);
+}
+
+.digit-btn, .operator-btn  {
+    width: 25%;
+}
+
+#clr-btn, #del-btn, #plus-minus-btn, #calc-btn {
+    width: 25%;
+}
+
+#spacer-btn {
+    width: 25%;
+    background-color: var(--calculator-black);
+    border: none;
+    padding: 5px;
+    margin: 2.5px
 }
