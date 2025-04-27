@@ -19,28 +19,39 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     font-family: "Orbitron", sans-serif;
+    background-color: var(--digit-purple);
+    background-image: url(images/background.jpg);
+}
+
+h1 {
+    margin: 25px auto 0px auto;
+    color: var(--digit-purple);
 }
 
 #calculator {
     width: 260px;
     border: solid 2px black;
-    margin: 150px;
+    margin: 25px 150px;
     display: flex;
     flex-direction: column;
     background-color: var(--calculator-black);
     border-radius: 2.5%;
+    border: solid 0.5px silver;
 }
 
 #display {
     border: solid 3px black; 
-    height: 80px;
+    height: 90px;
     width: 100%;
     text-align: right;
     color: var(--digit-purple);
     background-color: var(--calculator-black);
     font-size: 30px;
     font-family: "Orbitron", sans-serif;
+    border-radius: 2.5%;
+    padding: 5.5px;
     border-bottom: silver solid 1px;
 }
 
